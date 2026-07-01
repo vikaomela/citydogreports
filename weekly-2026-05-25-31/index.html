@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CityDog Weekly Report — 25–31 мая</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --paper: #fffaf2;
+      --ink: #1f2328;
+      --muted: #6b6257;
+      --line: #e2d8ca;
+      --accent: #e9753d;
+      --accent-dark: #a94c25;
+      --green: #12805c;
+      --red: #ad343e;
+      --shadow: 0 18px 45px rgba(54, 42, 28, .10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(233, 117, 61, .12), transparent 34%),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      line-height: 1.55;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 70px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1f2328 0%, #3a2c24 58%, #e9753d 160%);
+      color: #fffaf2;
+      border-radius: 30px;
+      padding: 42px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -120px;
+      top: -120px;
+      background: radial-gradient(circle, rgba(255,255,255,.22), rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,250,242,.78);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.02;
+      margin: 0 0 12px;
+      letter-spacing: -0.05em;
+    }
+
+    .subtitle {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255,250,242,.82);
+      font-size: 18px;
+    }
+
+    .note-pill {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.09);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 30px;
+    }
+
+    .metric-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(54, 42, 28, .05);
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 760;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .text-card, .table-section {
+      background: rgba(255,250,242,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(54, 42, 28, .05);
+    }
+
+    .text-card h2, .table-section h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .text-card p {
+      margin: 0 0 12px;
+      color: #332f2a;
+    }
+
+    .text-card ul {
+      padding-left: 18px;
+      margin: 8px 0 0;
+    }
+
+    .text-card li {
+      margin: 8px 0;
+    }
+
+    .accent-box {
+      margin-top: 14px;
+      border-left: 4px solid var(--accent);
+      background: rgba(233,117,61,.09);
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: #3c332c;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+    }
+
+    .table-search {
+      width: min(280px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .table-search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(233,117,61,.15);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      text-align: left;
+      border-bottom: 1px solid #efe7dc;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #fff6ea;
+      color: #4b4037;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1;
+    }
+
+    th::after {
+      content: " ↕";
+      color: rgba(75,64,55,.42);
+      font-weight: 400;
+    }
+
+    tbody tr:hover {
+      background: #fff9f1;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .positive {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .negative {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .neutral {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .full {
+      margin-top: 18px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .metrics-grid, .content-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero {
+        padding: 30px 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 18px;
+      }
+      .metrics-grid, .content-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .metric-value {
+        font-size: 24px;
+      }
+      table {
+        min-width: 680px;
+      }
+    }
+  </style>
+
+<style id="citydog-report-navigation-style">
+.cd-report-nav {
+  position: sticky;
+  top: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 16px;
+  color: #fffaf4;
+  background: rgba(31,35,40,.96);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 25px rgba(0,0,0,.14);
+  backdrop-filter: blur(12px);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.cd-report-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  color: #fffaf4;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cd-report-nav a:hover {
+  background: rgba(255,255,255,.10);
+}
+.cd-report-nav .cd-home {
+  background: #e9753d;
+  border-color: #e9753d;
+}
+.cd-report-nav .cd-current {
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+  color: rgba(255,250,244,.72);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cd-report-nav select {
+  max-width: 280px;
+  min-height: 36px;
+  padding: 7px 34px 7px 12px;
+  color: #1f2328;
+  background: #fffaf4;
+  border: 0;
+  border-radius: 999px;
+  font: 700 13px/1.2 Inter, ui-sans-serif, system-ui, sans-serif;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .cd-report-nav {
+    flex-wrap: wrap;
+    padding: 9px 10px;
+  }
+  .cd-report-nav .cd-current {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+  .cd-report-nav select {
+    flex: 1;
+    min-width: 145px;
+  }
+  .cd-report-nav .cd-prev,
+  .cd-report-nav .cd-next {
+    display: none;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<nav class="cd-report-nav" aria-label="Навигация по отчётам">
+  <a class="cd-home" href="../">Все отчёты</a>
+  
+  <a class="cd-next" href="../weekly-2026-06-01-07/">Позже →</a>
+  <select aria-label="Выбрать отчёт" onchange="if(this.value) window.location.href=this.value">
+    <option value="../weekly-2026-05-25-31/" selected>25–31 мая 2026</option><option value="../weekly-2026-06-01-07/">1–7 июня 2026</option><option value="../weekly-2026-06-08-14/">8–14 июня 2026</option><option value="../weekly-2026-06-15-21/">15–21 июня 2026</option><option value="../monthly-2026-06/">Июнь 2026</option>
+  </select>
+  <span class="cd-current">Еженедельный отчёт · 25–31 мая 2026</span>
+</nav>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">CityDog · Weekly Performance Report</div>
+      <h1>Отчёт за 25–31 мая</h1>
+      <p class="subtitle">
+        Финальный отчёт по Shopify и Meta Ads. Важный контекст периода: на предыдущей неделе checkout был сломан, поэтому продажи не фиксировались. После исправления checkout продажи восстановились.
+      </p>
+      <div class="note-pill">Currency: AED · Source: Shopify + Meta Ads / Windsor</div>
+    </section>
+
+    <section class="metrics-grid">
+      
+        <article class="metric-card">
+          <div class="metric-label">Total Sales</div>
+          <div class="metric-value">5,072.82 AED</div>
+          <div class="metric-note">Shopify</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Orders</div>
+          <div class="metric-value">12</div>
+          <div class="metric-note">Shopify</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-value">3.18%</div>
+          <div class="metric-note">Shopify</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Ad Spend</div>
+          <div class="metric-value">353.59 AED</div>
+          <div class="metric-note">Meta</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Meta Purchases</div>
+          <div class="metric-value">14</div>
+          <div class="metric-note">Meta</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Meta ROAS</div>
+          <div class="metric-value">7.76x</div>
+          <div class="metric-note">Attributed</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">Shopify ROAS</div>
+          <div class="metric-value">14.35x</div>
+          <div class="metric-note">Total sales / spend</div>
+        </article>
+        
+
+        <article class="metric-card">
+          <div class="metric-label">AOV</div>
+          <div class="metric-value">383.56 AED</div>
+          <div class="metric-note">Shopify</div>
+        </article>
+        
+    </section>
+
+    <section class="content-grid">
+      <article class="text-card">
+        <h2>Главный вывод</h2>
+        <p>
+          Неделя 25–31 мая показала сильное восстановление после предыдущего периода без продаж. При почти таком же рекламном бюджете магазин получил 12 заказов по Shopify и 5,072.82 AED total sales.
+        </p>
+        <p>
+          Ключевой фактор: на предыдущей неделе был сломан checkout, поэтому пользователи доходили до оформления заказа, но не могли завершить покупку. После исправления checkout воронка снова начала конвертировать.
+        </p>
+        <div class="accent-box">
+          На прошлой неделе: 25 add to cart → 18 checkout → 0 purchases.<br>
+          На этой неделе: 28 add to cart → 17 checkout → 12 purchases.
+        </div>
+      </article>
+
+      <article class="text-card">
+        <h2>Что изменилось</h2>
+        <p>
+          Верхняя часть воронки осталась примерно на том же уровне: количество сессий, добавлений в корзину и начатых оформлений заказа изменилось незначительно.
+        </p>
+        <p>
+          Главная разница — в финальном этапе. После восстановления checkout пользователи снова смогли завершать покупки, что сразу отразилось на продажах и conversion rate.
+        </p>
+      </article>
+    </section>
+
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>1. Общие результаты Shopify</h2>
+        <input class="table-search" data-table="shopifyTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="shopifyTable" class="interactive-table">
+          <thead>
+            <tr><th>Показатель</th><th>Результат</th></tr>
+          </thead>
+          <tbody><tr><td>Total Sales</td><td>5,072.82 AED</td></tr>
+<tr><td>Orders</td><td>12</td></tr>
+<tr><td>Gross Sales</td><td>5,061.03 AED</td></tr>
+<tr><td>Discounts</td><td>-458.35 AED</td></tr>
+<tr><td>Returns</td><td>0 AED</td></tr>
+<tr><td>Net Sales</td><td>4,602.68 AED</td></tr>
+<tr><td>Shipping</td><td>240 AED</td></tr>
+<tr><td>Taxes</td><td>230.14 AED</td></tr>
+<tr><td>Average Order Value</td><td>383.56 AED</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>2. Воронка Shopify</h2>
+        <input class="table-search" data-table="funnelTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="funnelTable" class="interactive-table">
+          <thead>
+            <tr><th>Показатель</th><th>Результат</th></tr>
+          </thead>
+          <tbody><tr><td>Sessions</td><td>377</td></tr>
+<tr><td>Online Store Visitors</td><td>299</td></tr>
+<tr><td>Sessions with Cart Additions</td><td>28</td></tr>
+<tr><td>Sessions Reached Checkout</td><td>17</td></tr>
+<tr><td>Sessions Completed Checkout</td><td>12</td></tr>
+<tr><td>Conversion Rate</td><td>3.18%</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>3. Funnel Rate</h2>
+        <input class="table-search" data-table="funnelRateTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="funnelRateTable" class="interactive-table">
+          <thead>
+            <tr><th>Показатель</th><th>Результат</th></tr>
+          </thead>
+          <tbody><tr><td>Add to Cart Rate</td><td>7.43%</td></tr>
+<tr><td>Checkout Rate</td><td>4.51%</td></tr>
+<tr><td>Purchase Rate</td><td>3.18%</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>4. Рекламные результаты Meta</h2>
+        <input class="table-search" data-table="metaTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="metaTable" class="interactive-table">
+          <thead>
+            <tr><th>Показатель</th><th>Результат</th></tr>
+          </thead>
+          <tbody><tr><td>Spend</td><td>353.59 AED</td></tr>
+<tr><td>Impressions</td><td>6,957</td></tr>
+<tr><td>Reach</td><td>3,074</td></tr>
+<tr><td>Clicks</td><td>181</td></tr>
+<tr><td>Link Clicks</td><td>121</td></tr>
+<tr><td>Landing Page Views</td><td>110</td></tr>
+<tr><td>Add to Cart</td><td>33</td></tr>
+<tr><td>Initiate Checkout</td><td>10</td></tr>
+<tr><td>Purchases</td><td>14</td></tr>
+<tr><td>Meta-attributed Purchase Value</td><td>2,744.22 AED</td></tr>
+<tr><td>Cost per Purchase</td><td>25.26 AED</td></tr>
+<tr><td>CPM</td><td>50.83 AED</td></tr>
+<tr><td>CPC</td><td>1.95 AED</td></tr>
+<tr><td>CTR</td><td>2.60%</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>5. ROAS</h2>
+        <input class="table-search" data-table="roasTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="roasTable" class="interactive-table">
+          <thead><tr><th>Тип ROAS</th><th>Расчёт</th><th>Результат</th></tr></thead>
+          <tbody><tr><td>Shopify ROAS</td><td>5,072.82 / 353.59</td><td>14.35x</td></tr>
+<tr><td>Meta-attributed ROAS</td><td>2,744.22 / 353.59</td><td>7.76x</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+
+    <section class="text-card full">
+      <h2>Комментарий по ROAS</h2>
+      <p>
+        Shopify и Meta считают продажи по-разному. Shopify показывает все заказы магазина за период, а Meta — только покупки, которые она атрибутировала рекламе.
+      </p>
+      <p>
+        Поэтому в отчёте разделены две метрики: Shopify Total Sales для оценки общего результата магазина и Meta-attributed ROAS для оценки результата рекламного кабинета.
+      </p>
+    </section>
+
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>6. Сравнение с прошлой неделей — Shopify</h2>
+        <input class="table-search" data-table="shopifyCompareTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="shopifyCompareTable" class="interactive-table">
+          <thead><tr><th>Показатель</th><th>18–24 мая</th><th>25–31 мая</th><th>Изменение</th></tr></thead>
+          <tbody><tr><td>Sessions</td><td>389</td><td>377</td><td>-3%</td></tr>
+<tr><td>Add to Cart</td><td>25</td><td>28</td><td>+12%</td></tr>
+<tr><td>Reached Checkout</td><td>18</td><td>17</td><td>-6%</td></tr>
+<tr><td>Completed Checkout</td><td>0</td><td>12</td><td>+12 заказов</td></tr>
+<tr><td>Orders</td><td>0</td><td>12</td><td>+12 заказов</td></tr>
+<tr><td>Total Sales</td><td>0 AED</td><td>5,072.82 AED</td><td>+5,072.82 AED</td></tr>
+<tr><td>Conversion Rate</td><td>0%</td><td>3.18%</td><td>+3.18 п.п.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    
+    <section class="table-section">
+      <div class="section-head">
+        <h2>7. Сравнение с прошлой неделей — Meta</h2>
+        <input class="table-search" data-table="metaCompareTable" placeholder="Поиск по таблице…" />
+      </div>
+      <div class="table-wrap">
+        <table id="metaCompareTable" class="interactive-table">
+          <thead><tr><th>Показатель</th><th>18–24 мая</th><th>25–31 мая</th><th>Изменение</th></tr></thead>
+          <tbody><tr><td>Spend</td><td>347.14 AED</td><td>353.59 AED</td><td>+2%</td></tr>
+<tr><td>Impressions</td><td>6,688</td><td>6,957</td><td>+4%</td></tr>
+<tr><td>Reach</td><td>3,384</td><td>3,074</td><td>-9%</td></tr>
+<tr><td>Clicks</td><td>268</td><td>181</td><td>-32%</td></tr>
+<tr><td>Link Clicks</td><td>151</td><td>121</td><td>-20%</td></tr>
+<tr><td>Landing Page Views</td><td>142</td><td>110</td><td>-23%</td></tr>
+<tr><td>Add to Cart</td><td>31</td><td>33</td><td>+6%</td></tr>
+<tr><td>Initiate Checkout</td><td>13</td><td>10</td><td>-23%</td></tr>
+<tr><td>Purchases</td><td>0</td><td>14</td><td>+14 покупок</td></tr>
+<tr><td>Meta Purchase Value</td><td>0 AED</td><td>2,744.22 AED</td><td>+2,744.22 AED</td></tr>
+<tr><td>Cost per Purchase</td><td>—</td><td>25.26 AED</td><td>—</td></tr>
+<tr><td>CPM</td><td>51.90 AED</td><td>50.83 AED</td><td>-2%</td></tr>
+<tr><td>CPC</td><td>1.30 AED</td><td>1.95 AED</td><td>+51%</td></tr>
+<tr><td>CTR</td><td>4.01%</td><td>2.60%</td><td>-35%</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+
+    <section class="content-grid full">
+      <article class="text-card">
+        <h2>8. Рекомендации на следующий период</h2>
+        <ul>
+          <li><strong>Не менять резко структуру кампаний.</strong> После восстановления продаж лучше сохранить работающую структуру и дать алгоритму продолжить накопление данных.</li>
+          <li><strong>Увеличить бюджет на 30–50%.</strong> Текущая неделя показала, что после исправления checkout кампания снова способна приносить покупки, поэтому можно аккуратно масштабировать бюджет.</li>
+          <li><strong>Оставить фокус на креативах, которые дают покупки.</strong> Оценивать не только CTR и CPC, а прежде всего purchases, cost per purchase, purchase value и ROAS.</li>
+          <li><strong>Использовать ретаргетинг.</strong> Вернуть пользователей, которые заходили на сайт, добавляли товары в корзину или начинали оформление заказа.</li>
+          <li><strong>Тестировать динамические/каталожные объявления.</strong> Для тёплой аудитории можно использовать product-based ретаргетинг и показывать товары, с которыми пользователь уже взаимодействовал.</li>
+        </ul>
+      </article>
+
+      <article class="text-card">
+        <h2>Резюме</h2>
+        <p>
+          За 25–31 мая CityDog получил 12 заказов и 5,072.82 AED продаж при рекламном бюджете 353.59 AED. Conversion rate восстановился до 3.18%.
+        </p>
+        <p>
+          Основная причина резкой разницы с прошлой неделей — исправление сломанного checkout. После фикса пользователи снова начали завершать покупки.
+        </p>
+        <p>
+          На следующий период рекомендуется сохранить текущую структуру кампаний, увеличить бюджет на 30–50%, продолжить фокус на конверсионных креативах и подключить ретаргетинг/динамические объявления.
+        </p>
+      </article>
+    </section>
+
+    <div class="footer">
+      Отчёт подготовлен для публикации на GitHub Pages · Таблицы можно сортировать кликом по заголовкам и фильтровать через поиск.
+    </div>
+  </main>
+
+  <script>
+    function parseValue(value) {
+      if (value === null || value === undefined) return "";
+      const text = String(value).trim();
+      const cleaned = text
+        .replace(/[,%x]/g, "")
+        .replace(/AED/g, "")
+        .replace(/п\.п\./g, "")
+        .replace(/заказов/g, "")
+        .replace(/—/g, "")
+        .trim();
+      const number = parseFloat(cleaned.replace(/,/g, ""));
+      return Number.isNaN(number) ? text.toLowerCase() : number;
+    }
+
+    function colorChanges() {
+      document.querySelectorAll("td").forEach(td => {
+        const t = td.textContent.trim();
+        if (t.startsWith("+")) td.classList.add("positive");
+        else if (t.startsWith("-")) td.classList.add("negative");
+        else if (t === "—") td.classList.add("neutral");
+      });
+    }
+
+    function makeSortable(table) {
+      const headers = table.querySelectorAll("th");
+      headers.forEach((th, index) => {
+        th.addEventListener("click", () => {
+          const tbody = table.querySelector("tbody");
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+          const current = th.dataset.sort === "asc" ? "desc" : "asc";
+          headers.forEach(h => h.dataset.sort = "");
+          th.dataset.sort = current;
+
+          rows.sort((a, b) => {
+            const aVal = parseValue(a.children[index]?.textContent || "");
+            const bVal = parseValue(b.children[index]?.textContent || "");
+            if (typeof aVal === "number" && typeof bVal === "number") {
+              return current === "asc" ? aVal - bVal : bVal - aVal;
+            }
+            return current === "asc"
+              ? String(aVal).localeCompare(String(bVal), "ru")
+              : String(bVal).localeCompare(String(aVal), "ru");
+          });
+
+          rows.forEach(row => tbody.appendChild(row));
+        });
+      });
+    }
+
+    function setupSearch(input) {
+      const table = document.getElementById(input.dataset.table);
+      if (!table) return;
+      input.addEventListener("input", () => {
+        const q = input.value.toLowerCase().trim();
+        table.querySelectorAll("tbody tr").forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(q) ? "" : "none";
+        });
+      });
+    }
+
+    document.querySelectorAll(".interactive-table").forEach(makeSortable);
+    document.querySelectorAll(".table-search").forEach(setupSearch);
+    colorChanges();
+  </script>
+</body>
+</html>
